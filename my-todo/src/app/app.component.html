@@ -15,7 +15,6 @@
   <ul>
     @for (std of listaStudenti; track $index) {
       <li>{{stampaStudente(std,$index)}}</li>
-    <!--In questo modo se la lista è vuota, inserirà il contenuto di questo blocco-->
     }
   </ul>
 <h3>Studenti Presenti:</h3>
@@ -58,3 +57,14 @@
   <app-item-list [studente]="std"></app-item-list>
 }
 </ul>
+<br>
+<br>
+<h1>I signal</h1>
+<h2>
+  Nome: {{nome}}<br>
+  Cognome: {{cognome()}}<br>
+  Counter: {{contatore()}}
+</h2>
+<!--In questo modo si crea un evento on click TROPPO FACILE-->
+<button (click)="setCognome()">Change Surname</button>
+<button (click)="incrementa()">++</button>

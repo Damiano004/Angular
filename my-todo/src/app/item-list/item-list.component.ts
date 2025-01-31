@@ -15,4 +15,6 @@ export class ItemListComponent {
   //con input.requred la rende obbligatoria, altrimenti è opzionale
   //tra le parentesi angolari metti la tipologia di attributo che si vuole come input
   studente = input.required<Studente>();
+  //se metto un valore tra parentesi tonde, se il valore è mancante, metterà quel valore di default
+  index = input<number>(-1);
 }
