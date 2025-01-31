@@ -5,7 +5,7 @@ import { PostCardComponent } from "./UI/post-card/post-card.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, PostCardComponent],
+  imports: [PostCardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

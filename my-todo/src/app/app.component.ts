@@ -70,6 +70,22 @@ export class AppComponent {
     //assegnato al signal
     this.contatore.update(val => val+1)
   }
+
+  postList = signal<Post[]>([]);
+
+  //negli array, utilizzando lo spread operator "..." esporta una copia du tutti i
+  //valori dell'array, è come ciclare per tutto l'array che fa "array1[i] = array2[i]"
+  //semplicemente facendo "array2 = [...array1]"
+  generaPost(){
+    this.postList.update(item => {
+      return [...item,{
+        titolo: "Terza lezione all'AFP ciaoooo",
+        body: "Stiamo Morendo dentro UwU cazzo palle ngieshtoughng",
+        id: 0,
+        userId: Math.random()*100
+      }]
+    });
+  }
 }
 
 //questo è un nuovo oggetto
@@ -79,4 +95,11 @@ export interface Studente{
   cognome: string,
   matricola: number,
   attivo: boolean
+}
+
+export interface Post{
+  titolo: string,
+  body: string,
+  id: number,
+  userId: number
 }
