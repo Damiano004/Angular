@@ -1,0 +1,12 @@
+.post
+{
+  border: 1px solid red;
+  width: 300px;
+  padding: 20px;
+}
+
+.post_info{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
