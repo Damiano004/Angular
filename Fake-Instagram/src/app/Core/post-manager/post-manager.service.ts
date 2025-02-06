@@ -10,12 +10,6 @@ export class PostManagerService {
   #URL = 'https://jsonplaceholder.typicode.com/posts';
 
   #http = inject(HttpClient);
-  basePost: Post ={
-    titolo: "Nessun post trovato",
-    body: "C'è stato un errore nel recupero dei post",
-    id: -1,
-    userId: Math.random()*100
-  }
   //Con la dicitura "#", si rende la variabile privata, rendendola inaccessibile
   //da fuori dalla classe postManagerService
   #postList = signal<Post[]>([]);
@@ -35,7 +29,12 @@ export class PostManagerService {
       retry(3),    //se la richiesta va in errore, riprova almeno 2 volte prima di ritornare l'effettivo errore
       catchError((err) => {    //cattura l'errore e non fa "crashare" il sito
         console.log(err);
-        return of<Post[]>([this.basePost]);    //ritorna il valore tra parametri sotto la forma di un Observable
+        return of<Post[]>([{    //ritorna il valore tra parametri sotto la forma di un Observable
+          titolo: "Nessun post trovato",
+          body: "E3214 - "+err.message,
+          id: -1,
+          userId: Math.random()*100
+        }]);
       })
     )
     .subscribe((postList: Post[]) => {
