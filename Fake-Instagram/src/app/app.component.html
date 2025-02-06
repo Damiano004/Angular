@@ -1,6 +1,6 @@
-<button (click)="generaPost()">Aggiungi post: {{postList().length}}</button>
+<button (click)="postManaverSrv.generaPost()">Aggiungi post: {{postManaverSrv.posetListComp().length}}</button>
 <div class="post_container">
-  @for (post of postList(); track post.id) {
+  @for (post of postManaverSrv.posetListComp(); track post.id) {
     <app-post-card [post]="post"></app-post-card>
   }@empty {
     <h1>NESSUN POST DISPONIBILE</h1>
