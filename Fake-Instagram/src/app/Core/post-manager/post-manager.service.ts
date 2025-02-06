@@ -1,6 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Post } from '../Model/Post.model';
 import { HttpClient } from '@angular/common/http';
+import { catchError, of, retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,12 @@ export class PostManagerService {
   #URL = 'https://jsonplaceholder.typicode.com/posts';
 
   #http = inject(HttpClient);
-
+  basePost: Post ={
+    titolo: "Nessun post trovato",
+    body: "C'è stato un errore nel recupero dei post",
+    id: -1,
+    userId: Math.random()*100
+  }
   //Con la dicitura "#", si rende la variabile privata, rendendola inaccessibile
   //da fuori dalla classe postManagerService
   #postList = signal<Post[]>([]);
@@ -20,8 +26,19 @@ export class PostManagerService {
 
   constructor() { }
 
+
   recuperaPostViaHTTP(): void{
-    this.#http.get<Post[]>(this.#URL).subscribe((postList: Post[]) => {
+    this.#http.get<Post[]>(this.#URL)
+    //Le pipe sono un insieme di operatori che vengono eseguiti se la chiamata va
+    //a buon fine o se va in errore.
+    .pipe(
+      retry(3),    //se la richiesta va in errore, riprova almeno 2 volte prima di ritornare l'effettivo errore
+      catchError((err) => {    //cattura l'errore e non fa "crashare" il sito
+        console.log(err);
+        return of<Post[]>([this.basePost]);    //ritorna il valore tra parametri sotto la forma di un Observable
+      })
+    )
+    .subscribe((postList: Post[]) => {
       console.log(postList);
       this.#postList.set(postList);
     });
