@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Post } from '../Model/Post.model';
+import { Post } from '../../Model/Post.model';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, retry } from 'rxjs';
 
