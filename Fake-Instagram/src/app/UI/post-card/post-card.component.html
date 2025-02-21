@@ -4,5 +4,10 @@
   <div class="post_info">
     <h4>ID: {{post().id}}</h4>
     <h4>UserID: {{post().userId}}</h4>
+    <button 
+      [routerLink]="['/modifica-post/'+post().userId+'?title='+post().titolo+'&body='+post().body]" 
+      routerLinkActive="router-link-active" >
+      MODIFICA
+    </button>
   </div>
 </div>

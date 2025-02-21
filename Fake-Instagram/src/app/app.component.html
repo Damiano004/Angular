@@ -1,13 +1,1 @@
-<button (click)="postManaverSrv.generaPost()">
-  Aggiungi post: {{postManaverSrv.posetListComp().length}}
-</button>
-<button (click)="postManaverSrv.recuperaPostViaHTTP()">
-  recupera post
-</button>
-<div class="post_container">
-  @for (post of postManaverSrv.posetListComp(); track post.id) {
-    <app-post-card [post]="post"></app-post-card>
-  }@empty {
-    <h1>NESSUN POST DISPONIBILE</h1>
-  }
-</div>
+<router-outlet/>

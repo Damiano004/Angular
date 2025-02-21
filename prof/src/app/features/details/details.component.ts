@@ -34,16 +34,16 @@ export class DetailsComponent implements OnInit{
     });
   }
 
-  // showData(){
-  //   this.postDetail.set(this.postManagerSrv.postListComp().find((p) => {
-  //     console.log(typeof p.userId);
-  //     console.log(typeof this.postIdParam());
-      
-  //     return p.userId === this.postIdParam()
-  //   }) ?? {} as Post)
+  showData(){
+    this.postDetail.set(this.postManagerSrv.postListComp().find((p) => {
+      console.log(typeof p.userId);
+      console.log(typeof this.postIdParam());
+   
+      return p.userId === this.postIdParam()
+    }) ?? {} as Post)
 
-  //   console.log(this.postDetail());
+    console.log(this.postDetail());
 
-  // }
+  }
 
 }

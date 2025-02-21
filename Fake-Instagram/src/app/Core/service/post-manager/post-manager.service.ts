@@ -2,6 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Post } from '../../Model/Post.model';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, retry } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class PostManagerService {
   //Con la dicitura "#", si rende la variabile privata, rendendola inaccessibile
   //da fuori dalla classe postManagerService
   #postList = signal<Post[]>([]);
+  #router = inject(Router)
 
   //è come un signal ma, a differenza di #postList, è un signal solamente
   //leggibile e non anche scrivibile.
@@ -39,7 +41,7 @@ export class PostManagerService {
     )
     .subscribe((postList: Post[]) => {
       console.log(postList);
-      this.#postList.set(postList);
+      this.#postList.update(() => [...this.#postList(),...postList]);
     });
   }
 
@@ -54,6 +56,35 @@ export class PostManagerService {
         id: 0,
         userId: Math.random()*100
       }]
+    });
+  }
+  
+  pubblicaPost(titolo: string, body: string, userID: number){   
+    // utilizzando la partial<oggetto> si possono creare degli oggetti dove sono spacificati dei parametri,
+    // quindi volendo potrei creare un oggetto vuoto, il che non va bene
+    //let tempPost: Partial<Post> = {
+    //  titolo: titolo,
+    //  body: body,
+    //  userId: userID,
+    //}
+    // con Omit posso specificare la tipologia di oggetto ed un parametro da rendere opzionale
+    let tempPost: Omit<Post,'id'> = {
+      titolo: titolo,
+      body: body,
+      userId: userID,
+    };
+
+    this.#http.post<Post>(this.#URL, tempPost).pipe(
+      retry(3),
+      catchError((err) => { 
+        console.log(err);
+        return of(null)
+      }),
+    ).subscribe((res:Post | null)=>{
+      if(res !== null){
+        this.#postList.update(() => [...this.#postList(), res]);
+        this.#router.navigate(['/home'])
+      }
     });
   }
 }

@@ -1,0 +1,50 @@
+<!--Se si utilizza questa tipologia è necesasrio importare formControl e reactiveForm qualcosa nel ts del component 
+è quella più consigliata actually-->
+<!-- <form>
+  <label for="titolo">Titolo</label>
+  <input type="text" name="titolo" id="titolo" [formControl] ="titolo">
+
+  <label for="body">body</label>
+  <input type="text" name="body" id="body" [formControl] ="body">
+
+  @let titoloVal = titolo.value || "";
+  @let bodyVal = body.value || "";
+  @let userIDVal = userID.value || -1;
+
+  <label for="userID">userID</label>
+  <input type="number" name="userID" id="userID" [formControl] ="userID">
+</form>
+<button 
+  (click)="PostManagerSrv.pubblicaPost(titoloVal,bodyVal, userIDVal)"
+  [disabled]="!verificaInput(titoloVal,bodyVal, userIDVal)"  
+>
+  INVIA
+</button> -->
+<form>
+  <label for="titolo">Titolo</label>
+  <input type="text" name="titolo" id="titolo" [(ngModel)] ="titolo">
+
+  <label for="body">body</label>
+  <input type="text" name="body" id="body" [(ngModel)] ="body">
+
+  <!-- @let titoloVal = titolo.value || "";
+  @let bodyVal = body.value || "";
+  @let userIDVal = userID.value || -1; -->
+
+  <label for="userID">userID</label>
+  <input type="number" name="userID" id="userID" [(ngModel)] ="userID">
+</form>
+<button 
+  (click)="PostManagerSrv.pubblicaPost(titolo(),body(), userID())"
+  [disabled]="!verificaInput(titolo(),body(), userID())">
+    INVIA
+</button>
+
+<button (click)="impostaPostDiDefault()">DEFAULT</button>
+<hr>
+<h2>
+  Resoconto
+</h2>
+<p>Titolo: {{titolo() || "Non fornito"}}</p>
+<p>body: {{body() || "Non fornito"}}</p>
+<p>userID: {{userID() || "Non fornito"}}</p>
