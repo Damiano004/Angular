@@ -3,9 +3,12 @@ import { Post } from './../../Core/Model/Post.model';
 import { Component, inject, input } from '@angular/core';
 import { PostManagerService } from '../../Core/service/post-manager/post-manager.service';
 import { AppStateManagerService } from '../../Core/service/state-manager/app-state-manager.service';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-post-card',
+  imports: [CardModule, ButtonModule],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.scss'
 })

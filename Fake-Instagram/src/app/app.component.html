@@ -3,9 +3,10 @@
 @if(st){
   <p>Message: {{appstate.message()}}</p>
 }
-
-<button (click)="appstate.setToReady()">READY</button>
-<button (click)="appstate.setToLoading()">CARICAMENTO</button>
-<button (click)="appstate.setToLoading('Sto caricando cazzo')">CARICAMENTO MESSAGGIO</button>
-<button (click)="appstate.setToError('orco can son morto')">ERRORE</button>
+<div class="flex justify-center">
+  <p-button (click)="appstate.setToReady()" label="READY" severity="success"/>
+  <p-button (click)="appstate.setToLoading()" label="CARICAMENTO" severity="help" loading="appstate.state()==='loading'"/>
+  <p-button (click)="appstate.setToLoading('Sto caricando cazzo')" label="CARICAMENTO MESSAGGIO" severity="help"/>
+  <p-button (click)="appstate.setToError('orco can son morto')" label="ERRORE" severity="danger" rounded="true"/>
+</div>
 <router-outlet/>

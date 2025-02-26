@@ -1,4 +1,4 @@
-<div class="post">
+<!-- <div class="post">
   <h1>{{post().titolo}}</h1>
   <h3>{{post().body}}</h3>
   <div class="post_info">
@@ -14,4 +14,26 @@
       ELIMINA
     </button>
   </div>
+</div> -->
+<div class="mb-4 p-8 flex items-center justify-center">
+  <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+      <ng-template #title>{{post().titolo}}</ng-template>
+      <p>{{post().body}}</p>
+      <ng-template #footer>
+          <div class="flex gap-4 mt-1">
+            <p-button
+            (click)="modifica()"
+            label="modifica"
+            severity="info"
+            rounded="true">
+          </p-button>
+          <p-button
+          (click)="PostManagerSrv.eliminaPost(post().id)"
+          label="ELIMINA"
+          severity="danger"
+          rounded="true">
+          </p-button>
+          </div>
+      </ng-template>
+  </p-card>
 </div>
