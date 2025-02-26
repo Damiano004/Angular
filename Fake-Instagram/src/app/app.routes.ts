@@ -17,7 +17,7 @@ export const routes: Routes = [
     component: CreaPostComponent
   },
   {
-    path: 'modifica-post/:userID',
+    path: 'modifica-post/:id/:userId/:titolo/:body',
     component: CreaPostComponent
   }
 ];

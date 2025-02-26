@@ -1,13 +1,19 @@
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Post } from './../../Core/Model/Post.model';
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { PostManagerService } from '../../Core/service/post-manager/post-manager.service';
 
 @Component({
   selector: 'app-post-card',
-  imports: [RouterLink],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.scss'
 })
 export class PostCardComponent {
   post = input.required<Post>();
+  PostManagerSrv = inject(PostManagerService)
+  router = inject(Router)
+
+  modifica(){
+    this.router.navigate(["/modifica-post",this.post().id,this.post().userId,this.post().titolo,this.post().body])
+  }
 }

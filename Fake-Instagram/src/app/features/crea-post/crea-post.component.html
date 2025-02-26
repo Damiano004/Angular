@@ -1,4 +1,4 @@
-<!--Se si utilizza questa tipologia è necesasrio importare formControl e reactiveForm qualcosa nel ts del component 
+<!--Se si utilizza questa tipologia è necesasrio importare formControl e reactiveForm qualcosa nel ts del component
 è quella più consigliata actually-->
 <!-- <form>
   <label for="titolo">Titolo</label>
@@ -14,9 +14,9 @@
   <label for="userID">userID</label>
   <input type="number" name="userID" id="userID" [formControl] ="userID">
 </form>
-<button 
+<button
   (click)="PostManagerSrv.pubblicaPost(titoloVal,bodyVal, userIDVal)"
-  [disabled]="!verificaInput(titoloVal,bodyVal, userIDVal)"  
+  [disabled]="!verificaInput(titoloVal,bodyVal, userIDVal)"
 >
   INVIA
 </button> -->
@@ -34,8 +34,8 @@
   <label for="userID">userID</label>
   <input type="number" name="userID" id="userID" [(ngModel)] ="userID">
 </form>
-<button 
-  (click)="PostManagerSrv.pubblicaPost(titolo(),body(), userID())"
+<button
+  (click)="PostManagerSrv.pubblicaPost(titolo(),body(), convertToNumber(userID()))"
   [disabled]="!verificaInput(titolo(),body(), userID())">
     INVIA
 </button>

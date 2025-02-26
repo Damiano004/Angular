@@ -1,5 +1,5 @@
+import { Post } from './../../Model/Post.model';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Post } from '../../Model/Post.model';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, retry } from 'rxjs';
 import { Router } from '@angular/router';
@@ -58,8 +58,8 @@ export class PostManagerService {
       }]
     });
   }
-  
-  pubblicaPost(titolo: string, body: string, userID: number){   
+
+  pubblicaPost(titolo: string, body: string, userID: number){
     // utilizzando la partial<oggetto> si possono creare degli oggetti dove sono spacificati dei parametri,
     // quindi volendo potrei creare un oggetto vuoto, il che non va bene
     //let tempPost: Partial<Post> = {
@@ -76,7 +76,7 @@ export class PostManagerService {
 
     this.#http.post<Post>(this.#URL, tempPost).pipe(
       retry(3),
-      catchError((err) => { 
+      catchError((err) => {
         console.log(err);
         return of(null)
       }),
@@ -86,5 +86,53 @@ export class PostManagerService {
         this.#router.navigate(['/home'])
       }
     });
+  }
+
+  modificaPost(post: Post){
+    this.#http.put<Post>(this.#URL+"/"+post.id, post)
+    .pipe(
+      retry(3),
+      catchError((err) => {
+        console.log(err);
+        return of<Post[]>([{
+          titolo: "Nessun post trovato",
+          body: "E3214 - "+err.message,
+          id: -1,
+          userId: Math.random()*100
+        }]);
+      })
+    )
+    .subscribe((updatedPost:Post|Post[]) =>{
+        if (Array.isArray(updatedPost)) throw new Error("Unexpected array of posts");
+
+      let oldPost = this.#postList().find((post) => post.id === updatedPost.id);
+      if(oldPost === undefined) throw new Error("Post non trovato");
+
+      let oldPostIndex = this.#postList().indexOf(oldPost)
+      if(oldPostIndex === -1) throw new Error("Post non trovato");
+
+      this.#postList()[oldPostIndex] = updatedPost;
+    });
+  }
+
+  eliminaPost(id:number){
+    this.#http.delete(this.#URL+"/"+id)
+    .pipe(
+      retry(3),
+      catchError((err) => {
+        console.log(err);
+        return of<Post[]>([{
+          titolo: "Nessun post trovato",
+          body: "E3214 - "+err.message,
+          id: -1,
+          userId: Math.random()*100
+        }]);
+      })
+    )
+    .subscribe((data) =>{
+      this.#postList.update((oldlist: Post[]) =>{
+        this.#postList().filter((p) => p.id !== id)
+      })
+    })
   }
 }
