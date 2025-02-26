@@ -1,1 +1,11 @@
+<h2>stato: {{appstate.state()}}</h2>
+@let st = appstate.message();
+@if(st){
+  <p>Message: {{appstate.message()}}</p>
+}
+
+<button (click)="appstate.setToReady()">READY</button>
+<button (click)="appstate.setToLoading()">CARICAMENTO</button>
+<button (click)="appstate.setToLoading('Sto caricando cazzo')">CARICAMENTO MESSAGGIO</button>
+<button (click)="appstate.setToError('orco can son morto')">ERRORE</button>
 <router-outlet/>

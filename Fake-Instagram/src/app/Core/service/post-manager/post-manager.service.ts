@@ -3,6 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, retry } from 'rxjs';
 import { Router } from '@angular/router';
+import { AppStateManagerService } from '../state-manager/app-state-manager.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class PostManagerService {
   //Con la dicitura "#", si rende la variabile privata, rendendola inaccessibile
   //da fuori dalla classe postManagerService
   #postList = signal<Post[]>([]);
-  #router = inject(Router)
-
+  #router = inject(Router);
+  readonly appstate = inject(AppStateManagerService);
   //è come un signal ma, a differenza di #postList, è un signal solamente
   //leggibile e non anche scrivibile.
   posetListComp = computed(() => this.#postList());
@@ -24,6 +25,7 @@ export class PostManagerService {
 
 
   recuperaPostViaHTTP(): void{
+    this.appstate.setToLoading("Caricando i post");
     this.#http.get<Post[]>(this.#URL)
     //Le pipe sono un insieme di operatori che vengono eseguiti se la chiamata va
     //a buon fine o se va in errore.
@@ -31,6 +33,7 @@ export class PostManagerService {
       retry(3),    //se la richiesta va in errore, riprova almeno 2 volte prima di ritornare l'effettivo errore
       catchError((err) => {    //cattura l'errore e non fa "crashare" il sito
         console.log(err);
+        this.appstate.setToError(err)
         return of<Post[]>([{    //ritorna il valore tra parametri sotto la forma di un Observable
           titolo: "Nessun post trovato",
           body: "E3214 - "+err.message,
@@ -43,6 +46,7 @@ export class PostManagerService {
       console.log(postList);
       this.#postList.update(() => [...this.#postList(),...postList]);
     });
+    this.appstate.setToReady()
   }
 
   //negli array, utilizzando lo spread operator "..." esporta una copia du tutti i
@@ -121,17 +125,17 @@ export class PostManagerService {
       retry(3),
       catchError((err) => {
         console.log(err);
-        return of<Post[]>([{
+        return of<Post>({
           titolo: "Nessun post trovato",
           body: "E3214 - "+err.message,
           id: -1,
           userId: Math.random()*100
-        }]);
+        });
       })
     )
     .subscribe((data) =>{
       this.#postList.update((oldlist: Post[]) =>{
-        this.#postList().filter((p) => p.id !== id)
+        return this.#postList().filter((p) => p.id !== id);
       })
     })
   }
