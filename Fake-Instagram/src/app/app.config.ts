@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, ErrorHandler, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -7,6 +7,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import Material from '@primeng/themes/material'
+import { GlobalErrorHandler } from './Core/Error_Manager/GlobalErrorHandler';
+import { AppStateManagerService } from './Core/service/state-manager/app-state-manager.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +21,11 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Material
       }
-    })
+    }),
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
+      deps: [AppStateManagerService]
+    }
   ]
 };

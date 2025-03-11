@@ -8,5 +8,7 @@
   <p-button (click)="appstate.setToLoading()" label="CARICAMENTO" severity="help" loading="appstate.state()==='loading'"/>
   <p-button (click)="appstate.setToLoading('Sto caricando cazzo')" label="CARICAMENTO MESSAGGIO" severity="help"/>
   <p-button (click)="appstate.setToError('orco can son morto')" label="ERRORE" severity="danger" rounded="true"/>
+  <p-button (click)="lanciaErrore()" label="ERRORE" severity="danger"/>
+  <p-button (click)="lanciaErroreLogico()" label="ERRORE" severity="danger"/>
 </div>
 <router-outlet/>
