@@ -19,7 +19,10 @@ export const routes: Routes = [
   },
   {
     path: 'crea-post',
-    component: CreaPostComponent
+    // Facendo così, questa pagina non sarà caricata immediatamente ma solo nel momento del bisogno
+    loadComponent(){
+      return import('./features/crea-post/crea-post.component').then(m => m.CreaPostComponent);
+    }
   },
   {
     path: 'modifica-post/:id/:userId/:titolo/:body',
