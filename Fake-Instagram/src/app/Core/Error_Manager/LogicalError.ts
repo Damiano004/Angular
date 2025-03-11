@@ -9,6 +9,10 @@ export class LogicalError implements Error{
     this.cause = cause;
   }
 
+  getMessage(){
+    return this.message;
+  }
+
   toString(){
     return  this.name + ": " + this.message + "\n\n Cause: "+this.cause
   }

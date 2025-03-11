@@ -24,8 +24,7 @@ export const appConfig: ApplicationConfig = {
     }),
     {
       provide: ErrorHandler,
-      useClass: GlobalErrorHandler,
-      deps: [AppStateManagerService]
+      useClass: GlobalErrorHandler
     }
   ]
 };

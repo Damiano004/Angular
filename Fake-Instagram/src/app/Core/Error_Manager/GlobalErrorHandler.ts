@@ -9,11 +9,13 @@ export class GlobalErrorHandler implements ErrorHandler{
   appstate = inject(AppStateManagerService);
 
   handleError(error: any): void{
-    this.appstate.setToError(error);
+
 
     if(error instanceof LogicalError){
+      this.appstate.setToError(error.getMessage());
       console.error("##> ",error.toString())
     }else{
+      this.appstate.setToError(error);
       console.error("##> ",error);
     }
   }
