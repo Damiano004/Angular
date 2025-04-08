@@ -1,3 +1,44 @@
-<p>
-  accetta-pz works!
-</p>
+<div class="form">
+  <label for="nome">NOME</label>
+  <input
+    type="text"
+    id="nome"
+    placeholder="nome"
+    [(ngModel)]="nome"
+  >
+  <label for="cognome">COGNOME</label>
+  <input
+    type="text"
+    id="nome"
+    placeholder="cognome"
+    [(ngModel)]="cognome"
+  >
+  <label for="dataNascita">DATA DI NASCITA</label>
+  <input
+    type="date"
+    id="dataNascita"
+    placeholder="dataNascita"
+    [(ngModel)]="dataNascita"
+  >
+  <label for="codiceFiscale">CODICE FISCALE</label>
+  <input
+    type="text"
+    id="codiceFiscale"
+    placeholder="codiceFiscale"
+    [(ngModel)]="codiceFiscale"
+  >
+  <label for="codiceColore">CODICE COLORE</label>
+  <select name="codiceColore" id="codiceColore"
+  [(ngModel)]="codiceColore">
+    <option value="ROSSO">ROSSO</option>
+    <option value="ARANCIONE">ARANCIONE</option>
+    <option value="AZZURRO">AZZURRO</option>
+    <option value="VERDE">VERDE</option>
+    <option value="BIANCO">BIANCO</option>
+  </select>
+  <button
+    (click)="accettaPaziente()"
+    [disabled]= "!validateInput()"
+  >ACCETTA PAZIENTE
+  </button>
+</div>
