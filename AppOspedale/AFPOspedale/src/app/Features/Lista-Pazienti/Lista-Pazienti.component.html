@@ -1,4 +1,5 @@
 <button (click)="api.getListaPazienti()">GET PAZIENTI</button>
+<button routerLink="/accetta-pz">ACCETTA PAZIENTE</button>
 
 <div class="pz-list">
   @for (pz of api.listaPz(); track pz.id) {

@@ -1,14 +1,16 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Paziente } from '../Models/Paziente';
+import { CreazionePaziente, Paziente } from '../Models/Paziente';
 import { HttpClient } from '@angular/common/http';
 import { HttpRes } from '../Models/ResManager';
 import { finalize, map, retry } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AFPOspedaleAPIService {
   readonly #URL = "http://localhost:3000";
+  readonly #router = inject(Router);
 
   readonly #listaPz = signal<Paziente[]>([]);
   readonly #http = inject(HttpClient);
@@ -34,13 +36,25 @@ export class AFPOspedaleAPIService {
     .subscribe(res => {
       if(res.state === 'KO'){
         console.error(res.error);
+
       }
 
     });
   }
 
-  accettaPaziente(): void{
-    throw new Error("Not implemented yet");
+  accettaPaziente(pz: CreazionePaziente): void{
+    this.#http.post<HttpRes>(this.#URL+'/accetta-pz',pz)
+    .pipe(
+      retry(3),
+      finalize(() => this.getListaPazienti())
+    )
+    .subscribe((data) =>{
+      if(data.state === 'KO'){
+        console.error(data.error);
+      }
+      this.#router.navigate(['/lista-pz'])
+    }
+    );
   }
 
   dimettiaPaziente(idPaziente: number): void{
