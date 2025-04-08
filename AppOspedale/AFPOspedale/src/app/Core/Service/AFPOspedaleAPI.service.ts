@@ -2,7 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Paziente } from '../Models/Paziente';
 import { HttpClient } from '@angular/common/http';
 import { HttpRes } from '../Models/ResManager';
-import { map, retry } from 'rxjs';
+import { finalize, map, retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,21 @@ export class AFPOspedaleAPIService {
     .subscribe((data) => this.#listaPz.set(data));
   }
 
+  trasferisciPaziente(idPaziente: number): void{
+    this.#http.put<HttpRes>(this.#URL+'/trasferisci-pz/'+idPaziente,{})
+    .pipe(
+      retry(3),
+      // finalize fa in modo che la funzione inserita qui dentro venga eseguita sia che la chiamata fallisca che vada a buon fine
+      finalize(() => this.getListaPazienti())
+    )
+    .subscribe(res => {
+      if(res.state === 'KO'){
+        console.error(res.error);
+      }
+
+    });
+  }
+
   accettaPaziente(): void{
     throw new Error("Not implemented yet");
   }
@@ -32,7 +47,5 @@ export class AFPOspedaleAPIService {
     throw new Error("Not implemented yet");
   }
 
-  trasferisciPaziente(idPaziente: number): void{
-    throw new Error("Not implemented yet");
-  }
+
 }

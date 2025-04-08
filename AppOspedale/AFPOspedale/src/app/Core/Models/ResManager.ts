@@ -1,6 +1,6 @@
 export interface HttpRes{
   body: unknown,
-  state: number | null,
+  state: string | null,
   error:  HttpError | null
 };
 
